@@ -2,14 +2,22 @@ package com.exemplo.webservices.controller;
 
 import com.exemplo.webservices.entities.Produto;
 import com.exemplo.webservices.service.ProdutoService;
+
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/produto")
+@RequestMapping(
+        value = "/produto",
+        produces = {
+                MediaType.APPLICATION_JSON_VALUE,
+                MediaType.APPLICATION_XML_VALUE
+        }
+)
 public class ProdutoController {
 
     private final ProdutoService produtoService;
@@ -35,10 +43,14 @@ public class ProdutoController {
         return ResponseEntity.ok(produto);
     }
 
-    @PostMapping
+    @PostMapping(
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.APPLICATION_XML_VALUE
+            }
+    )
     @ResponseStatus(HttpStatus.CREATED)
     public Produto cadastrar(@RequestBody Produto produto) {
         return produtoService.cadastrar(produto);
     }
-
 }
